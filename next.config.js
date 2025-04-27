@@ -7,6 +7,7 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  assetPrefix: './',
   // Optional: Set trailingSlash to true if needed for routing within the extension context
   // trailingSlash: true,
 };
