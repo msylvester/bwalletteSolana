@@ -12,11 +12,14 @@ export default function Popup() {
   const containerStyle = {
     fontFamily: 'Arial, sans-serif',
     backgroundColor: '#f4f7f9',
-    minWidth: '280px', // Slightly wider
+    minWidth: '420px', // Increased from 280px
+    minHeight: '270px', // Added minimum height
     borderRadius: '8px',
     border: '1px solid #e1e4e8',
     overflow: 'hidden', // Ensures header background is clipped by border radius
     boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Subtle shadow
+    display: 'flex', // Use flexbox to manage height distribution if needed
+    flexDirection: 'column', // Stack children vertically
   };
 
   const headerStyle = {
@@ -26,6 +29,7 @@ export default function Popup() {
     textAlign: 'center',
     fontSize: '16px',
     fontWeight: 'bold',
+    flexShrink: 0, // Prevent header from shrinking
   };
 
   const middleDivStyle = {
@@ -34,6 +38,7 @@ export default function Popup() {
     alignItems: 'stretch', // Stretch buttons to fill width
     gap: '12px',
     padding: '20px 15px', // More padding
+    flexGrow: 1, // Allow this section to grow and fill available space
   };
 
   const thirdDivStyle = {
@@ -43,6 +48,7 @@ export default function Popup() {
     padding: '10px 5px', // Adjust padding
     borderTop: '1px solid #e1e4e8', // Separator line
     backgroundColor: '#ffffff', // Slightly different background for footer actions
+    flexShrink: 0, // Prevent footer from shrinking
   };
 
   // Base Button Style
