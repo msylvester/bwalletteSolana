@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Popup() {
+  // State to manage which view is currently displayed
+  const [currentPage, setCurrentPage] = useState('main');
 
-  // Placeholder handler, can be adapted for each button
-  const handleClick = (action) => {
+  // Placeholder handler for other buttons
+  const handleOtherClick = (action) => {
     window.alert(`Button clicked: ${action}`);
   };
 
@@ -59,7 +61,7 @@ export default function Popup() {
     fontSize: '14px',
     cursor: 'pointer',
     textAlign: 'center',
-    transition: 'background-color 0.2s ease', // Basic transition for potential hover (though hover state isn't defined inline)
+    transition: 'background-color 0.2s ease',
   };
 
   // Primary Button Style (e.g., Create/Import)
@@ -81,7 +83,30 @@ export default function Popup() {
     margin: '0 3px', // Small margin between footer buttons
   };
 
+  // Style for the simple back button
+  const backButtonStyle = {
+      ...baseButtonStyle,
+      backgroundColor: '#6c757d', // Gray color
+      color: 'white',
+      marginTop: '20px',
+      alignSelf: 'center', // Center the back button
+  };
 
+  // --- Render Logic ---
+
+  if (currentPage === 'create') {
+    // Render the "Create Wallet" page view
+    return (
+      <div style={{ ...containerStyle, padding: '20px', alignItems: 'center', justifyContent: 'center' }}>
+        <h1>Hello Ash</h1>
+        <button onClick={() => setCurrentPage('main')} style={backButtonStyle}>
+          Back
+        </button>
+      </div>
+    );
+  }
+
+  // Render the main popup view (default)
   return (
     <div style={containerStyle}>
 
@@ -93,13 +118,13 @@ export default function Popup() {
       {/* Second Div: Column Buttons */}
       <div style={middleDivStyle}>
         <button
-          onClick={() => handleClick('Create Wallet')}
+          onClick={() => setCurrentPage('create')} // Updated onClick
           style={primaryButtonStyle}
         >
           Create Wallet
         </button>
         <button
-          onClick={() => handleClick('Import wallet')}
+          onClick={() => handleOtherClick('Import wallet')} // Use placeholder for others
           style={primaryButtonStyle}
         >
           Import wallet
@@ -109,19 +134,19 @@ export default function Popup() {
       {/* Third Div: Row Buttons - Footer Actions */}
       <div style={thirdDivStyle}>
         <button
-          onClick={() => handleClick('Settings')}
+          onClick={() => handleOtherClick('Settings')}
           style={secondaryButtonStyle}
         >
           Settings
         </button>
         <button
-          onClick={() => handleClick('Activity')}
+          onClick={() => handleOtherClick('Activity')}
           style={secondaryButtonStyle}
         >
           Activity
         </button>
         <button
-          onClick={() => handleClick('Transfer')}
+          onClick={() => handleOtherClick('Transfer')}
           style={secondaryButtonStyle}
         >
           Transfer
