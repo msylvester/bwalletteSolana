@@ -23,20 +23,17 @@ export default function Popup() {
     marginBottom: '10px', // Space below row buttons
   };
 
-  const colButtonStyle = {
+  // Renamed and updated for row layout
+  const thirdDivStyle = {
     display: 'flex',
-    flexDirection: 'column',
+    flexDirection: 'row', // Changed to row
+    justifyContent: 'space-around', // Added justification for row layout
+    padding: '10px 0', // Added some vertical padding
   };
 
-  const buttonStyle = { // Basic styling for visibility
-      margin: '2px 0', // Small vertical margin between column buttons
-      padding: '8px'
-  };
-
-  const colButtonStyleNoSpace = { // Style for column buttons with no space
-      margin: 0,
-      padding: '8px',
-      borderTop: '1px solid #ccc', // Add subtle separator
+  // Simple padding for buttons
+  const buttonPadding = {
+      padding: '8px 12px'
   };
 
 
@@ -50,15 +47,16 @@ export default function Popup() {
 
       {/* Second Div: Row Buttons */}
       <div style={rowButtonStyle}>
-        <button onClick={() => handleClick('Button 1')} style={{ padding: '8px 12px'}}>Button 1</button>
-        <button onClick={() => handleClick('Button 2')} style={{ padding: '8px 12px'}}>Button 2</button>
+        <button onClick={() => handleClick('Button 1')} style={buttonPadding}>Button 1</button>
+        <button onClick={() => handleClick('Button 2')} style={buttonPadding}>Button 2</button>
       </div>
 
-      {/* Third Div: Column Buttons */}
-      <div style={colButtonStyle}>
-        <button onClick={() => handleClick('Action A')} style={{...colButtonStyleNoSpace, borderTop: 'none'}}>Action A</button>
-        <button onClick={() => handleClick('Action B')} style={colButtonStyleNoSpace}>Action B</button>
-        <button onClick={() => handleClick('Action C')} style={colButtonStyleNoSpace}>Action C</button>
+      {/* Third Div: Now Row Buttons */}
+      <div style={thirdDivStyle}>
+        {/* Removed colButtonStyleNoSpace, using simple padding */}
+        <button onClick={() => handleClick('Action A')} style={buttonPadding}>Action A</button>
+        <button onClick={() => handleClick('Action B')} style={buttonPadding}>Action B</button>
+        <button onClick={() => handleClick('Action C')} style={buttonPadding}>Action C</button>
       </div>
 
     </div>
