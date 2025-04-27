@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Next.js Popup Button",
+  "version": "1.0",
+  "description": "A simple Chrome extension popup with a button, built with Next.js.",
+  "action": {
+    "default_popup": "out/popup.html"
+  },
+  "permissions": []
+}
