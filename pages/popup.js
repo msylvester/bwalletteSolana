@@ -54,11 +54,11 @@ export default function Popup() {
         <button onClick={() => handleClick('Import wallet')} style={buttonPadding}>Import wallet</button>
       </div>
 
-      {/* Third Div: Row Buttons */}
+      {/* Third Div: Row Buttons - Updated Labels */}
       <div style={thirdDivStyle}>
-        <button onClick={() => handleClick('Action A')} style={buttonPadding}>Action A</button>
-        <button onClick={() => handleClick('Action B')} style={buttonPadding}>Action B</button>
-        <button onClick={() => handleClick('Action C')} style={buttonPadding}>Action C</button>
+        <button onClick={() => handleClick('Settings')} style={buttonPadding}>Settings</button>
+        <button onClick={() => handleClick('Activity')} style={buttonPadding}>Activity</button>
+        <button onClick={() => handleClick('Transfer')} style={buttonPadding}>Transfer</button>
       </div>
 
     </div>
