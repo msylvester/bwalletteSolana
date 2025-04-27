@@ -7,58 +7,119 @@ export default function Popup() {
     window.alert(`Button clicked: ${action}`);
   };
 
-  const headerStyle = {
-    backgroundColor: 'blue',
-    color: 'white',
-    padding: '10px',
-    textAlign: 'center',
-    marginBottom: '10px', // Space below header
+  // --- Style Definitions ---
+
+  const containerStyle = {
+    fontFamily: 'Arial, sans-serif',
+    backgroundColor: '#f4f7f9',
+    minWidth: '280px', // Slightly wider
+    borderRadius: '8px',
+    border: '1px solid #e1e4e8',
+    overflow: 'hidden', // Ensures header background is clipped by border radius
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)', // Subtle shadow
   };
 
-  // Renamed and updated for column layout
+  const headerStyle = {
+    backgroundColor: '#4A90E2', // Softer blue
+    color: 'white',
+    padding: '12px 15px',
+    textAlign: 'center',
+    fontSize: '16px',
+    fontWeight: 'bold',
+  };
+
   const middleDivStyle = {
     display: 'flex',
-    flexDirection: 'column', // Changed to column
-    alignItems: 'center', // Center items horizontally in the column
-    gap: '10px', // Add space between the buttons vertically
-    padding: '10px 0', // Add some vertical padding
-    marginBottom: '10px', // Space below this div
+    flexDirection: 'column',
+    alignItems: 'stretch', // Stretch buttons to fill width
+    gap: '12px',
+    padding: '20px 15px', // More padding
   };
 
-  // Style for the third div (remains row layout)
   const thirdDivStyle = {
     display: 'flex',
-    flexDirection: 'row', // Kept as row
-    justifyContent: 'space-around', // Added justification for row layout
-    padding: '10px 0', // Added some vertical padding
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: '10px 5px', // Adjust padding
+    borderTop: '1px solid #e1e4e8', // Separator line
+    backgroundColor: '#ffffff', // Slightly different background for footer actions
   };
 
-  // Simple padding for buttons
-  const buttonPadding = {
-      padding: '8px 12px'
+  // Base Button Style
+  const baseButtonStyle = {
+    border: 'none',
+    borderRadius: '6px',
+    padding: '10px 15px',
+    fontSize: '14px',
+    cursor: 'pointer',
+    textAlign: 'center',
+    transition: 'background-color 0.2s ease', // Basic transition for potential hover (though hover state isn't defined inline)
+  };
+
+  // Primary Button Style (e.g., Create/Import)
+  const primaryButtonStyle = {
+    ...baseButtonStyle,
+    backgroundColor: '#007bff', // Standard primary blue
+    color: 'white',
+    fontWeight: '500',
+  };
+
+  // Secondary Button Style (e.g., Settings/Activity/Transfer)
+  const secondaryButtonStyle = {
+    ...baseButtonStyle,
+    backgroundColor: 'transparent', // Transparent background
+    color: '#007bff', // Use primary color for text
+    padding: '8px 10px', // Slightly smaller padding for footer buttons
+    fontSize: '13px',
+    flexGrow: 1, // Allow buttons to grow equally
+    margin: '0 3px', // Small margin between footer buttons
   };
 
 
   return (
-    <div style={{ width: '250px', padding: '0px' }}> {/* Adjusted width slightly, removed padding */}
+    <div style={containerStyle}>
 
       {/* First Div: Header */}
       <div style={headerStyle}>
         Solana Wallet
       </div>
 
-      {/* Second Div: Now Column Buttons */}
+      {/* Second Div: Column Buttons */}
       <div style={middleDivStyle}>
-        {/* Updated button labels and onClick handlers */}
-        <button onClick={() => handleClick('Create Wallet')} style={buttonPadding}>Create Wallet</button>
-        <button onClick={() => handleClick('Import wallet')} style={buttonPadding}>Import wallet</button>
+        <button
+          onClick={() => handleClick('Create Wallet')}
+          style={primaryButtonStyle}
+        >
+          Create Wallet
+        </button>
+        <button
+          onClick={() => handleClick('Import wallet')}
+          style={primaryButtonStyle}
+        >
+          Import wallet
+        </button>
       </div>
 
-      {/* Third Div: Row Buttons - Updated Labels */}
+      {/* Third Div: Row Buttons - Footer Actions */}
       <div style={thirdDivStyle}>
-        <button onClick={() => handleClick('Settings')} style={buttonPadding}>Settings</button>
-        <button onClick={() => handleClick('Activity')} style={buttonPadding}>Activity</button>
-        <button onClick={() => handleClick('Transfer')} style={buttonPadding}>Transfer</button>
+        <button
+          onClick={() => handleClick('Settings')}
+          style={secondaryButtonStyle}
+        >
+          Settings
+        </button>
+        <button
+          onClick={() => handleClick('Activity')}
+          style={secondaryButtonStyle}
+        >
+          Activity
+        </button>
+        <button
+          onClick={() => handleClick('Transfer')}
+          style={secondaryButtonStyle}
+        >
+          Transfer
+        </button>
       </div>
 
     </div>
