@@ -23,8 +23,8 @@ export default function Popup() {
   };
 
   const headerStyle = {
-    backgroundColor: '#4A90E2', // Softer blue
-    color: 'white',
+    backgroundColor: '#343a40', // Changed to dark gray/charcoal
+    color: '#f8f9fa', // Changed to light gray
     padding: '12px 15px',
     textAlign: 'center',
     fontSize: '16px',
