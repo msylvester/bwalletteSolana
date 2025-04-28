@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import { useRouter } from 'next/router'; // Removed useRouter import
 import {
   Keypair,
   PublicKey,
@@ -47,6 +48,7 @@ const downloadSecretKey = (publicKey, secretKey, seedPhrase) => {
 
 
 export default function Popup() {
+  // const router = useRouter(); // Removed router initialization
   // State to manage which view is currently displayed
   const [currentPage, setCurrentPage] = useState('main'); // 'main' or 'createWallet'
 
@@ -130,9 +132,11 @@ export default function Popup() {
       setDeterministicPublicKey(null);
       setSeedError(null);
       setCurrentPage('createWallet');
+    } else if (action === 'Activity') { // Check if the action is 'Activity'
+        window.alert('Activity button clicked!'); // Show an alert instead of routing
     } else {
       // Keep the placeholder for other actions
-     window.alert(`Button clicked: Helllo there`);
+      window.alert(`Button clicked: ${action}`);
     }
   };
 
@@ -278,7 +282,7 @@ export default function Popup() {
               Settings
             </button>
             <button
-              onClick={() => handleOtherClick('Activity')}
+              onClick={() => handleOtherClick('Activity')} // Pass 'Activity' action
               style={secondaryButtonStyle}
             >
               Activity
