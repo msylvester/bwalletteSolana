@@ -132,7 +132,7 @@ export default function Popup() {
       setCurrentPage('createWallet');
     } else {
       // Keep the placeholder for other actions
-      window.alert(`Button clicked: ${action}`);
+     window.alert(`Button clicked: Helllo there`);
     }
   };
 
