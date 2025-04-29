@@ -382,11 +382,10 @@ export default function Popup() {
         Get Activity
       </button>
       
-      {/* Close Button */}
+      {/* Close Button - Now red with white text */}
       <button
         onClick={handleBack}
-        style={backButtonStyle}
-        className="mt-4"
+        className={`${styles.button} bg-red-600 hover:bg-red-700 text-white mt-4`}
       >
         Close
       </button>
