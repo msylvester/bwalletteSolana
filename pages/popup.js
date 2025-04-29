@@ -367,7 +367,16 @@ export default function Popup() {
       <label className={styles.label} htmlFor="publicKeyInput">
         Enter Public Key
       </label>
-  </div>
+      
+      {/* Close Button */}
+      <button
+        onClick={handleBack}
+        style={backButtonStyle}
+        className="mt-4"
+      >
+        Close
+      </button>
+    </div>
   </div>
 )}
     </div>
