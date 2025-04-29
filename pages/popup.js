@@ -367,6 +367,12 @@ export default function Popup() {
       <label className={styles.label} htmlFor="publicKeyInput">
         Enter Public Key
       </label>
+      <input
+        id="publicKeyInput"
+        type="text"
+        placeholder="Enter Solana public key"
+        className={`${styles.input} mb-3`}
+      />
       
       {/* Close Button */}
       <button
