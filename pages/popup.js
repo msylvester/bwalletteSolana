@@ -57,6 +57,14 @@ export default function Popup() {
   const [deterministicPublicKey, setDeterministicPublicKey] = useState(null);
   // Secret key is not stored in state long-term, only used during generation/download
   const [seedError, setSeedError] = useState(null); // Error message for seed input
+  
+  // --- State for Activity View ---
+  const [activityInput, setActivityInput] = useState('');
+  const [activityError, setActivityError] = useState(null);
+  const [activitySignatures, setActivitySignatures] = useState(null);
+  const [activityDetails, setActivityDetails] = useState(null);
+  const [isLoadingActivity, setIsLoadingActivity] = useState(false);
+  const [loadingActivityMessage, setLoadingActivityMessage] = useState('');
 
   // --- Handlers for Deterministic Generation ---
 
@@ -295,16 +303,16 @@ export default function Popup() {
       setActivityDetails(details);
       console.log("Fetched details:", details);
 
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error fetching account activity:", error);
-      if (error.message.includes("Invalid public key")) {
+      if (error.message && error.message.includes("Invalid public key")) {
           setActivityError("Invalid Public Key entered. Please check the address.");
       } else {
           // Check for rate limit error (common with Promise.all)
-          if (error.message.includes("429") || error.message.toLowerCase().includes("too many requests")) {
+          if (error.message && (error.message.includes("429") || error.message.toLowerCase().includes("too many requests"))) {
              setActivityError(`Failed to fetch details due to RPC rate limits. Please try again shortly or use a dedicated RPC endpoint.`);
           } else {
-             setActivityError(`Failed to fetch activity: ${error.message}`);
+             setActivityError(`Failed to fetch activity: ${error.message || 'Unknown error'}`);
           }
       }
       setActivitySignatures(null); // Clear signatures if details fail
@@ -438,20 +446,51 @@ export default function Popup() {
       <input
         id="publicKeyInput"
         type="text"
+        value={activityInput}
+        onChange={(e) => setActivityInput(e.target.value)}
         placeholder="Enter Solana public key"
         className={`${styles.input} mb-3`}
       />
       
-      {/* Get Activity Button - Moved to bottom */}
-   
-
-      <button
-        onClick={() => handleActivityClick()}
-        className={`${styles.button} bg-blue-500 hover:bg-blue-700 mt-4`}
-      >
-        Get Activity
-      </button>
-   
+      {activityError && (
+        <p className={styles.errorText}>{activityError}</p>
+      )}
+      
+      {isLoadingActivity && (
+        <div className="text-center my-4">
+          <p>{loadingActivityMessage || 'Loading...'}</p>
+        </div>
+      )}
+      
+      {activitySignatures && activitySignatures.length === 0 && (
+        <div className={styles.infoBox}>
+          <p>No transaction activity found for this address.</p>
+        </div>
+      )}
+      
+      {activitySignatures && activitySignatures.length > 0 && activityDetails && (
+        <div className={`${styles.infoBox} max-h-60 overflow-y-auto`}>
+          <h3 className="font-bold mb-2">Recent Transactions:</h3>
+          <ul className="divide-y divide-gray-200">
+            {activitySignatures.map((sig, index) => (
+              <li key={sig.signature} className="py-2">
+                <div className="flex flex-col">
+                  <span className="font-mono text-xs break-all">{sig.signature}</span>
+                  <span className="text-xs">
+                    {new Date(sig.blockTime * 1000).toLocaleString()}
+                  </span>
+                  {activityDetails[index] && (
+                    <span className="text-xs mt-1">
+                      Status: {activityDetails[index].meta?.err ? 'Failed' : 'Success'}
+                    </span>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
       <button
         onClick={handleBack}
         className={`${styles.button} bg-red-600 hover:bg-red-700 text-white mb-3`}
@@ -459,7 +498,13 @@ export default function Popup() {
         Exit
       </button>
       
-
+      <button
+        onClick={handleActivityClick}
+        disabled={isLoadingActivity}
+        className={`${styles.button} bg-blue-500 hover:bg-blue-700 mt-4 ${isLoadingActivity ? 'opacity-50 cursor-not-allowed' : ''}`}
+      >
+        {isLoadingActivity ? 'Loading...' : 'Get Activity'}
+      </button>
     </div>
   </div>
 )}
