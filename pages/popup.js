@@ -246,6 +246,74 @@ export default function Popup() {
     linkText: "text-xs text-orange-600 dark:text-orange-400 mt-2",
   };
 
+  /**
+    * handleActivityClick makes the api request to get the transactions from the ledger
+    * @params 
+    * returns void
+    **/
+  const handleActivityClick = async () => {
+    if (!activityInput.trim()) {
+      setActivityError("Please enter a Public Key.");
+      setActivitySignatures(null);
+      setActivityDetails(null);
+      return;
+    }
+
+    setIsLoadingActivity(true);
+    setLoadingActivityMessage('Fetching signatures...');
+    setActivitySignatures(null);
+    setActivityDetails(null);
+    setActivityError(null);
+
+    try {
+      // Validate and create PublicKey
+      const accountPublicKey = new PublicKey(activityInput);
+
+      // Fetch transaction signatures
+      console.log(`Fetching signatures for: ${accountPublicKey.toBase58()}`);
+      const signatures = await connection.getSignaturesForAddress(accountPublicKey, { limit: 10 }); // Limit results
+
+      if (!signatures || signatures.length === 0) {
+        setActivitySignatures([]);
+        setActivityDetails([]);
+        console.log("No activity found for this address.");
+        setIsLoadingActivity(false);
+        return;
+      }
+
+      setActivitySignatures(signatures);
+      console.log(`Found ${signatures.length} signatures. Fetching details...`);
+      setLoadingActivityMessage(`Fetching details for ${signatures.length} transactions...`);
+
+      // Fetch detailed transaction info for each signature
+      // Using Promise.all for potentially faster fetching (beware of rate limits on public RPCs)
+      const detailPromises = signatures.map(sigInfo =>
+        connection.getParsedTransaction(sigInfo.signature, { maxSupportedTransactionVersion: 0 }) // Specify version
+      );
+      const details = await Promise.all(detailPromises);
+
+      setActivityDetails(details);
+      console.log("Fetched details:", details);
+
+    } catch (error: any) {
+      console.error("Error fetching account activity:", error);
+      if (error.message.includes("Invalid public key")) {
+          setActivityError("Invalid Public Key entered. Please check the address.");
+      } else {
+          // Check for rate limit error (common with Promise.all)
+          if (error.message.includes("429") || error.message.toLowerCase().includes("too many requests")) {
+             setActivityError(`Failed to fetch details due to RPC rate limits. Please try again shortly or use a dedicated RPC endpoint.`);
+          } else {
+             setActivityError(`Failed to fetch activity: ${error.message}`);
+          }
+      }
+      setActivitySignatures(null); // Clear signatures if details fail
+      setActivityDetails(null);
+    } finally {
+      setIsLoadingActivity(false);
+      setLoadingActivityMessage('');
+    }
+  };
 
   // --- Render Logic ---
 
@@ -374,21 +442,24 @@ export default function Popup() {
         className={`${styles.input} mb-3`}
       />
       
-      {/* Close Button - Now red with white text */}
-      <button
-        onClick={handleBack}
-        className={`${styles.button} bg-red-600 hover:bg-red-700 text-white mb-3`}
-      >
-        Close
-      </button>
-      
       {/* Get Activity Button - Moved to bottom */}
+   
+
       <button
-        onClick={() => window.alert('Getting activity for this address...')}
+        onClick={() => handleActivityClick()}
         className={`${styles.button} bg-blue-500 hover:bg-blue-700 mt-4`}
       >
         Get Activity
       </button>
+   
+      <button
+        onClick={handleBack}
+        className={`${styles.button} bg-red-600 hover:bg-red-700 text-white mb-3`}
+      >
+        Exit
+      </button>
+      
+
     </div>
   </div>
 )}
