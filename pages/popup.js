@@ -374,6 +374,14 @@ export default function Popup() {
         className={`${styles.input} mb-3`}
       />
       
+      {/* Get Activity Button */}
+      <button
+        onClick={() => window.alert('Getting activity for this address...')}
+        className={`${styles.button} bg-blue-500 hover:bg-blue-700 mb-3`}
+      >
+        Get Activity
+      </button>
+      
       {/* Close Button */}
       <button
         onClick={handleBack}
