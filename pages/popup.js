@@ -133,7 +133,9 @@ export default function Popup() {
       setSeedError(null);
       setCurrentPage('createWallet');
     } else if (action === 'Activity') { // Check if the action is 'Activity'
-        window.alert('Activity button clicked!'); // Show an alert instead of routing
+        setCurrentPage('createActivity');
+
+      // Show an alert instead of routing
     } else {
       // Keep the placeholder for other actions
       window.alert(`Button clicked: ${action}`);
@@ -358,6 +360,16 @@ export default function Popup() {
         // --- End Deterministic Generation Section ---
       )}
 
+
+{currentPage === 'createActivity' && (
+  <div className="p-4 flex flex-col items-center h-full">
+    <div className={styles.section}>
+      <label className={styles.label} htmlFor="publicKeyInput">
+        Enter Public Key
+      </label>
+  </div>
+  </div>
+)}
     </div>
   );
 }
